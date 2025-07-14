@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "1ac043ae-5adc-4f00-9066-2cf4a3f76abf",
+		"name": "Subscriber",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2056570",
+		"_collection_link": "https://lively-crescent-100491.postman.co/workspace/New-API~3bef8ae9-9f90-4cb7-94b1-c2237bda68d7/collection/2056570-1ac043ae-5adc-4f00-9066-2cf4a3f76abf?action=share&source=collection_link&creator=2056570"
+	},
+	"item": [
+		{
+			"name": "New Post",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "website_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "First post",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Content for the post",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api_server}}new-post",
+					"host": [
+						"{{api_server}}new-post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Subscriber",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "website_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Mahesh",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "maheshkamani309@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api_server}}new-subscriber",
+					"host": [
+						"{{api_server}}new-subscriber"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_server",
+			"value": "http://127.0.0.1:8001/api/",
+			"type": "string"
+		}
+	]
+}
