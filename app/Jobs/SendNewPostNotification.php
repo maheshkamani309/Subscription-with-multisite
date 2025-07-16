@@ -13,15 +13,15 @@ class SendNewPostNotification implements ShouldQueue
 {
     use Queueable;
 
-    public $post;
-    public $get_only_not_sent;
+    public $post_id;
+    public $subscriber_ids;
     /**
      * Create a new job instance.
      */
-    public function __construct(Post $post, $get_only_not_sent = false)
+    public function __construct($post_id, $subscriber_ids,  $get_only_not_sent = false)
     {
-        $this->post = $post;
-        $this->get_only_not_sent = $get_only_not_sent;
+        $this->post_id = $post_id;
+        $this->subscriber_ids = $subscriber_ids;
     }
 
     /**
@@ -29,24 +29,19 @@ class SendNewPostNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        $subscribers = Subscriber::where('website_id', $this->post->website_id)->get();
-        if ($this->get_only_not_sent) {
-            $subscribers = $this->post->subscribers()
-                ->where('website_id', $this->post->website_id)
-                ->wherePivot('is_sent', false)
-                ->get();
-        }
+        $post = Post::find($this->post_id);
+        $subscribers = Subscriber::whereIn('id', $this->subscriber_ids)->get();
         foreach ($subscribers as $subscriber) {
             try {
-                Mail::to($subscriber->email)->send(new NewPostNotification($this->post));
-                $this->post->subscribers()->syncWithoutDetaching([
+                Mail::to($subscriber->email)->send(new NewPostNotification($post));
+                $post->subscribers()->syncWithoutDetaching([
                     $subscriber->id => [
                         'is_sent' => true,
                         'sent_at' => now()
                     ]
                 ]);
             } catch (\Exception $e) {
-                $this->post->subscribers()->syncWithoutDetaching([
+                $post->subscribers()->syncWithoutDetaching([
                     $subscriber->id => [
                         'is_sent' => false,
                         'sent_at' => null
